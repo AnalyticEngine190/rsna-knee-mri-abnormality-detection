@@ -1,5 +1,8 @@
 # Final private-leaderboard snapshot — 23 October 2026
 
+![Original screenshot: rank 717, upward 1230 places, 0.942](assets/final-private-rank.svg)
+
+
 The author provided a CSV export named `rsna-knee-abnormality-detection-privateleaderboard-2026-10-23T08_18_33.csv` and a team-rank screenshot. The full CSV is not redistributed.
 
 | Statistic | Value |
