@@ -1,0 +1,17 @@
+{
+  "backbone": "vit_small_patch14_dinov2.lvd142m",
+  "architecture": "TriPlanarDINOv2",
+  "cache_input_shape": [16, 288, 288],
+  "image_size": 392,
+  "phase2_image_size": 336,
+  "unfreeze_last": 6,
+  "slice_heads": 6,
+  "patch_size": 14,
+  "pretrained": false,
+  "batch_size": 1,
+  "epochs": 4,
+  "lr_backbone": 0.000001,
+  "lr_head": 0.00001,
+  "gold_only_validation": true,
+  "note": "Illustrative configuration; per-fold checkpoint metadata must take precedence. No pretrained weights bundled."
+}
