@@ -1,0 +1,22 @@
+{
+  "description": "Illustrative fixed expert weights; not a complete inference configuration",
+  "weights": {
+    "v7": 0.6,
+    "s6": 0.25,
+    "v5": 0.15
+  },
+  "targets": [
+    "ACL",
+    "MCL",
+    "Medial Meniscus",
+    "Lateral Meniscus",
+    "Medial OA",
+    "Lateral OA",
+    "PF OA",
+    "Effusion",
+    "Synovitis",
+    "Baker's",
+    "Contusion",
+    "Fracture"
+  ]
+}
