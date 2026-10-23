@@ -1,0 +1,10 @@
+{
+  "note": "SHA-256 hashes of user-provided reference files. Originals are not redistributed.",
+  "sources": {
+    "Pasted text(20261023-082948).txt": "07f5aa53e32013021356c4fe9947a92199fb83c1969a92e67a3504eec28b1a7b",
+    "Pasted text (2)(9).txt": "1467fb9134b2fb041579b8cea596cc43659fa66026536212293d4abb0e1a6baa",
+    "experiment-a-pathology-specific-weights-no-tta(2).ipynb": "159f06fb2e9122b5df929ebeef5894d98b50583493f3f3770e8456f411af4bf8",
+    "rsna_pathology_steady_60_25_15 (1)(1).ipynb": "ff87aa8a426ff83176a61bbaef8b9eed6a3251444f56d028762ec827db2acd2a",
+    "rsna_consensus_challenge_v8_mild_tta_fixed(2).ipynb": "ac0e01d648d548999c5275e852b1719209a3a40c0819a22954d02a68be98e50a"
+  }
+}
