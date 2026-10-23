@@ -1,0 +1,14 @@
+{
+  "backbone": "eca_nfnet_l0",
+  "architecture": "TriPlanarNFNet",
+  "cache_input_shape": [16, 288, 288],
+  "image_size": 384,
+  "phase2_image_size": 320,
+  "pretrained": false,
+  "batch_size": 2,
+  "epochs": 4,
+  "lr_backbone": 0.000001,
+  "lr_head": 0.00001,
+  "gold_only_validation": true,
+  "note": "Illustrative configuration; no Kaggle data or pretrained weights bundled."
+}
