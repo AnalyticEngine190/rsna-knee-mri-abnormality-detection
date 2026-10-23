@@ -86,8 +86,15 @@ The competition's small expert-labeled training subset and noisy report-derived 
 │   ├── methodology.md
 │   ├── experiments.md
 │   ├── generalization.md
+│   ├── leaderboard-snapshot.md
 │   ├── provenance-and-data.md
 │   └── cv-entry.md
+├── research/
+│   ├── README.md
+│   ├── architecture/tri_planar_cnn.py
+│   ├── training/loss_and_metrics.py
+│   ├── oof/rsna_4family_ensemble_v2_7.py
+│   └── experiments/four_expert_pathology_weights.csv
 ├── examples/fixed_60_25_15.json
 ├── src/reference_rank_blend.py
 ├── tests/test_reference_rank_blend.py
@@ -96,7 +103,7 @@ The competition's small expert-labeled training subset and noisy report-derived 
 └── LICENSING.md
 ```
 
-**Scope:** This repository includes an **original educational reference implementation of rank fusion** and detailed engineering documentation. It **does not** include medical images, patient records, competition labels, proprietary/model-weight bundles, or the executable full V7/S6/V8 inference engines. The reference blend is **not claimed to reproduce Kaggle inference byte-for-byte**. See [data and provenance notes](docs/provenance-and-data.md).
+**Scope:** The repository contains selected research source code, a standalone educational rank-fusion utility, tests, and technical documentation. It does **not** redistribute MRI studies, individual labels, checkpoints, or external expert inference engines. The reference fusion code is not claimed to reproduce the Kaggle run byte-for-byte. See [source provenance](docs/provenance-and-data.md).
 
 ## Selected original research code
 
