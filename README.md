@@ -117,9 +117,10 @@ The [training portfolio update](docs/PORTFOLIO_UPDATE.md) adds a **working, smok
 
 - [DINOv2 ViT-S/14](src/models/triplanar_dinov2.py) — CLS/mean/focal patch pooling, frozen-prefix option, focal slice attention and anatomy-informed plane prior; [architecture documentation](docs/models/dinov2.md)
 - [ECA-NFNet-L0](src/models/triplanar_nfnet.py) — one-channel MRI, GeM pooling, masked slice transformer; [architecture documentation](docs/models/nfnet.md)
-- [Shared model components](src/models/common.py), [cache loader](src/data/cached.py), [training and AUC utilities](src/training/engine.py)
-- [CPU smoke tests](tests/test_training_modules.py): model forward/backward, missing planes, data safety, soft labels and fold grouping
+- [Shared model components](src/models/common.py), [cache loader](src/data/cached.py), [DICOM geometry helpers](src/data/geometry.py), and [training and AUC utilities](src/training/engine.py)
+- [CPU smoke tests](tests/test_training_modules.py) and [geometry tests](tests/test_geometry.py): model forward/backward, missing planes, data safety, soft labels, fold grouping and physical slice ordering
 - [Configuration examples](configs/) — illustrating historical Phase-3 settings without asserting exact per-fold checkpoint parity
+- [DICOM canonical preprocessing notes](docs/models/preprocessing.md) — validated physical-coordinate operations and limitations
 
 ```bash
 python -m pip install -r requirements-research.txt
