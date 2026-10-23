@@ -105,6 +105,27 @@ The competition's small expert-labeled training subset and noisy report-derived 
 
 **Scope:** The repository contains selected research source code, a standalone educational rank-fusion utility, tests, and technical documentation. It does **not** redistribute MRI studies, individual labels, checkpoints, or external expert inference engines. The reference fusion code is not claimed to reproduce the Kaggle run byte-for-byte. See [source provenance](docs/provenance-and-data.md).
 
+## Final leaderboard screenshot
+
+![Kaggle final private leaderboard: rank 717, score 0.942, up 1,230 places](docs/assets/final-private-rank.svg)
+
+The screenshot was supplied by the author. The repository stores an SVG wrapper containing the original PNG image data. The final result was **717th** at **0.942 private macro AUC**, with a displayed change of **+1,230 positions**. This does not prove other teams overfitted, nor that the private score increased.
+
+## Reusable training modules
+
+The [training portfolio update](docs/PORTFOLIO_UPDATE.md) adds a **working, smoke-tested research adaptation** of the DINOv2 and NFNet training architecture. These are **not guaranteed to restore the original competition checkpoints**.
+
+- [DINOv2 ViT-S/14](src/models/triplanar_dinov2.py) — CLS/mean/focal patch pooling, frozen-prefix option, focal slice attention and anatomy-informed plane prior; [architecture documentation](docs/models/dinov2.md)
+- [ECA-NFNet-L0](src/models/triplanar_nfnet.py) — one-channel MRI, GeM pooling, masked slice transformer; [architecture documentation](docs/models/nfnet.md)
+- [Shared model components](src/models/common.py), [cache loader](src/data/cached.py), [training and AUC utilities](src/training/engine.py)
+- [CPU smoke tests](tests/test_training_modules.py): model forward/backward, missing planes, data safety, soft labels and fold grouping
+- [Configuration examples](configs/) — illustrating historical Phase-3 settings without asserting exact per-fold checkpoint parity
+
+```bash
+python -m pip install -r requirements-research.txt
+python -m unittest discover -s tests -v
+```
+
 ## Selected original research code
 
 The repository now includes source-derived examples in [`research/`](research/README.md):
