@@ -3,8 +3,9 @@
 | Experiment | Public macro AUC | Interpretation |
 |---|---:|---|
 | Early DINOv2-only effective submission | 0.823 | 15 CNN checkpoints skipped due to incorrect input channel count |
+| Single ResNet34 (ImageNet-pretrained) | 0.877 | Standalone convolutional baseline before later multi-family models |
 | First full four-family attempt | 0.879 | Legacy raw-DICOM processing did not match V5 cached training volumes |
-| Four-family update | 0.889 | Progressive debugging and inference improvements |
+| Four-family update | 0.890 | Progressive debugging and inference improvements |
 | S6 standalone (external) | 0.950 | Independent expert prediction source |
 | V7 standalone (external) | 0.956 | Strong independently published base |
 | Fixed V7/S6/V5 60/25/15 | 0.957 | Best documented fixed blend |
@@ -12,6 +13,9 @@
 | CoAt Top-3 5% + V5 10% + V7 60% + S6 25% | 0.956 | Extra image family at low weight |
 | V8 Consensus + Mild DINOv2 TTA | 0.956 | Dynamic rank-disagreement gate; additional model diversity |
 | Final selected submissions | 0.942 private, rank 717 | Team-level final result, per-submission private score not proven by screenshot |
+
+## Competition timeline
+The author joined during the final 25 days, spent approximately the first two weeks studying knee anatomy, relevant academic work and model/mathematical foundations, and used the remaining time for model training, debugging and experiments. The sprint involved roughly 60 submissions. See the [README retrospective](../README.md#what-i-would-do-differently-if-i-entered-this-competition-again) for lessons about label quality, correlated errors, and independent validation.
 
 ## Failure-driven engineering
 1. Early checkpoint loader used 3-channel CNN stems against grayscale one-channel checkpoints. Fixing `in_chans=1` and strict checkpoint restoration prevented silent branch loss.
