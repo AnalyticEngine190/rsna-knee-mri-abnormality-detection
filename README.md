@@ -14,6 +14,14 @@ The [2026 RSNA Knee Abnormality Detection challenge](https://www.kaggle.com/comp
 
 A central challenge was **limited expert supervision**. The working dataset contained **4,407 training studies, of which 58 had expert reference labels**; the remaining records primarily provided multilingual radiology reports rather than explicit per-finding labels. This made weak supervision, label quality, scanner variation, and careful validation central concerns.
 
+## My 25-day competition journey
+
+I joined the competition with only **25 days remaining**. I spent roughly the **first two weeks learning the problem before committing to large-scale experiments**: studying the anatomy and biomechanics of the knee, understanding how ACL/MCL injuries, meniscal findings, osteoarthritis and fluid-related conditions appear across sagittal, coronal and axial MRI views, and reading relevant medical-imaging and deep-learning research. I also compared CNNs, vision transformers, 2.5D/tri-planar approaches, attention and pooling methods, and the mathematics behind training and evaluation—from backpropagation and class-weighted binary cross-entropy to self-attention, generalized-mean pooling and ROC-AUC.
+
+That left approximately **11 days for intensive implementation, training, debugging and ensemble experimentation**. I trained my own V5 models, iterated on preprocessing and checkpoint compatibility, and integrated externally developed expert systems into the final inference pipeline. Across the sprint I made **around 60 Kaggle submissions**, testing model combinations, inference corrections, TTA, rank fusion and pathology-specific weights. Those submissions accelerated feedback, but also illustrated the risk of repeatedly tuning against a small public leaderboard.
+
+The project therefore reflects both **domain research** and **hands-on engineering under a very constrained timeline**. The research was valuable; in retrospect, I would have started validating a minimal end-to-end baseline alongside it so that I could uncover data and inference problems earlier.
+
 ## What I built
 
 - **LLM-assisted report labeling.** Extracted structured per-finding targets from multilingual reports using **Qwen2.5-7B-Instruct** and blended them with another report-derived label source. Used **soft targets** rather than assuming all reports contained clean binary annotations. In the V5 training experiments, gold-labeled cases received higher training weights, and held-out folds were evaluated separately.
@@ -51,8 +59,9 @@ flowchart TD
 | Stage / selected experiment | Reported public AUC | Main lesson |
 | --- | ---: | --- |
 | Early partially loaded inference | **0.823** | Fifteen CNN checkpoints were skipped after a channel mismatch; the result was not the intended full ensemble. |
+| Single ResNet34 (ImageNet-pretrained) | **0.877** | A single-backbone reference point before the stronger multi-family ensembles. |
 | First functional four-family inference | **0.879** | Correct checkpoints are not enough if inference preprocessing differs from training. |
-| Later four-family improvements | **0.889** | Incremental gains from inference fixes and controlled experiments. |
+| Later four-family improvements | **0.890** | Incremental gains from inference fixes and controlled experiments. |
 | Standalone S6 published expert (integrated, not trained here) | **0.950** | An external model added a strong, complementary prediction source. |
 | V7-only published expert (integrated, not trained here) | **0.956** | High-quality external baseline. |
 | **Fixed V7/S6/V5 blend (60/25/15)** | **0.957** | Strongest documented stable three-expert recipe. |
@@ -76,6 +85,29 @@ The competition's small expert-labeled training subset and noisy report-derived 
 3. **Model diversity isn't the same as error independence.** Multiple architectures may share labeling or acquisition biases; rank-disagreement gating is not automatically an error detector.
 4. **AUC is a ranking metric.** Post-processing must be judged by held-out ranking quality, not by the visual confidence of probabilities.
 5. **Reproducibility is part of the model.** Checkpoint integrity, provenance, data leakage safeguards, and truthful partial-completion flags were essential to deployment.
+
+## What I would do differently if I entered this competition again
+
+The clearest lesson from this project is that **more models, more TTA and more ensemble tuning do not necessarily fix errors learned from the same imperfect supervision**. My ConvNeXt, ResNet50D, NFNet and DINOv2 models were architecturally different, but they could still learn *correlated mistakes* if trained on similar noisy report-derived targets. The same concern applies when integrating external experts, even though their training sources may differ.
+
+If I started again, I would change the order of investment:
+
+1. **Establish an end-to-end baseline early.** In parallel with the first anatomy and literature review, I would validate a small training/inference run, DICOM geometry, checkpoint restoration and submission schema. This would leave more time to improve core methodology instead of discovering preprocessing mismatches near the deadline.
+2. **Spend substantially more time on label quality.** I would audit the 12-pathology labeling taxonomy against expert-labeled examples, preserve distinctions between *negative*, *not mentioned*, *uncertain* and *positive*, and manually review difficult report phrases and potential LLM extraction failures. With only 58 expert-labeled training studies, the reference labels would be used carefully rather than repeatedly optimized against.
+3. **Experiment with more diverse sources of supervision.** Instead of relying primarily on closely related LLM-generated labels, I would compare independent report-extraction methods (e.g., Qwen, other language models, clinical rules and targeted human review where feasible), measure their disagreements, and train with confidence-aware or masked targets. **Diverse labels are a hypothesis to test—not an automatic cure**: several language models can repeat the same report ambiguity, and no pseudo-label should be treated as a new independent ground-truth case.
+4. **Measure shared errors explicitly.** I would create patient-disjoint out-of-fold predictions for every model and label source, then investigate per-pathology false positives/negatives, error correlation, scanner or acquisition shifts and whether an alternative model corrects *actual mistakes*, not merely disagrees. I would try a supervised error-risk or stacking layer only if nested validation showed a reproducible AUC improvement.
+5. **Protect generalization and simplify selection.** I would reserve independent validation where feasible, verify grouping at the *patient* rather than just study level, record confidence intervals for per-class AUC, and make fewer leaderboard-driven decisions. Rather than around 60 submissions driving repeated heuristic changes, I would organize a smaller set of pre-declared experiments with a clear rationale and an untouched evaluation protocol.
+
+I would also revisit **anatomy-focused localization and higher-coverage slice sampling** for subtle focal abnormalities, but only after better labels and stronger validation were in place. Higher resolution or more windows cannot repair systematic target errors on their own.
+
+### What I learned
+
+- **The data pipeline is part of the model.** Physical orientation, DICOM windowing, consistent sampling and exact training/inference parity can matter as much as another architecture.
+- **Medical context affects engineering choices.** Understanding the knee helped me reason about plane selection, left/right anatomy, finding-specific attention and why careless flips may break labels.
+- **Weak supervision has a ceiling.** The limiting factor may be what a model is being taught rather than the capacity of its network.
+- **Diversity should be measured, not assumed.** Different architectures and label generators can produce strongly correlated errors; disagreement is not the same as correctness.
+- **Leaderboard metrics are noisy estimates.** Our best public AUC was 0.957 while the final private AUC was 0.942, even though the displayed rank improved to 717th. Neither public improvement nor relative private movement proves a particular generalization mechanism.
+- **Reproducibility and honest failure analysis matter.** Checkpoint mismatches, runtime failures and unsuccessful experiments became some of the most useful technical findings in this 25-day project.
 
 ## Repository contents
 
