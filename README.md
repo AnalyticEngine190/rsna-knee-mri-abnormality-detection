@@ -98,6 +98,18 @@ The competition's small expert-labeled training subset and noisy report-derived 
 
 **Scope:** This repository includes an **original educational reference implementation of rank fusion** and detailed engineering documentation. It **does not** include medical images, patient records, competition labels, proprietary/model-weight bundles, or the executable full V7/S6/V8 inference engines. The reference blend is **not claimed to reproduce Kaggle inference byte-for-byte**. See [data and provenance notes](docs/provenance-and-data.md).
 
+## Selected original research code
+
+The repository now includes source-derived examples in [`research/`](research/README.md):
+
+- [Tri-planar CNN architecture](research/architecture/tri_planar_cnn.py) — slice transformer, single-channel TIMM models, three-plane fusion, and GeM/mean pooling.
+- [Training loss and metrics](research/training/loss_and_metrics.py) — study-weighted masked BCE, training-only class weights, and macro ROC-AUC.
+- [Four-family OOF calibration audit (v2.7)](research/oof/rsna_4family_ensemble_v2_7.py) — fold validation, leakage guards, nested calibration, and provenance checks.
+- [Experimental four-expert pathology weights](research/experiments/four_expert_pathology_weights.csv) — an exploratory configuration, not the fixed 60/25/15 finalist.
+- [Final private leaderboard snapshot](docs/leaderboard-snapshot.md) — aggregated results from the supplied 6,425-team export, including final 717th place.
+
+These files document real implementation details, but the training extracts are not standalone runnable programs; see the code archive's [scope and limitations](research/README.md). No patient-level labels or full private leaderboard CSVs were published.
+
 ## Reproduce the reference fusion example
 
 ```bash
